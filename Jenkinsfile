@@ -5,6 +5,11 @@ pipeline {
         terraform 'terraform'
     }
     stages {
+        stage ("Git Checkout") {
+            steps {
+                git branch: 'main', credentialsId: '6ed82982-b217-43b4-9885-0837e69a259b', url: 'https://github.com/RahulTiple31/first-terraform-project.git'
+            }
+        }
         stage ("terraform init") {
             steps {
                 sh 'terraform init'
