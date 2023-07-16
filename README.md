@@ -4,9 +4,9 @@
 https://github.com/RahulTiple31/first-terraform-project.git
 
 
-###### create eks cluster using terraform #####
+# create eks cluster using terraform
 
-# terraform files
+## terraform files
 
 eks_cluster.tf
 eks_node_group.tf
