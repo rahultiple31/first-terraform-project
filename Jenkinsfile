@@ -54,7 +54,7 @@ pipeline {
             steps {
                 script {
                     dir('kubernetes') {
-                        sh "aws eks update-kubeconfig --name myapp-eks-cluster"
+                        sh "aws eks update-kubeconfig --name springboot-eks"
                         sh "kubectl apply -f springboot-app.yaml"
                     }
                 }
