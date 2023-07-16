@@ -9,13 +9,21 @@ https://github.com/RahulTiple31/first-terraform-project.git
 ## terraform files
 
 eks_cluster.tf
+
 eks_node_group.tf
+
 iam_role.tf
+
 internetgw.tf
+
 provider.tf
+
 rout.tf
+
 sg.tf
+
 subnet.tf
+
 vpc.tf
 
 ## terraform command
