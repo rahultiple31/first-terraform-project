@@ -1,51 +1,65 @@
 pipeline {
     agent any
-    
-    tools {
-        terraform 'terraform'
+    tools{
+        maven 'maven'
     }
+    environment {
+        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+        AWS_DEFAULT_REGION = "ap-south-1"
+    }
+
     stages {
-        stage ("Git Checkout") {
+        stage('Git Checkout') {
             steps {
                 git branch: 'main', credentialsId: '6ed82982-b217-43b4-9885-0837e69a259b', url: 'https://github.com/RahulTiple31/first-terraform-project.git'
             }
         }
-        stage ("terraform init") {
-            steps {
-                sh 'terraform init'
+
+        stage('Build Maven'){
+            steps{
+                sh 'mvn clean install'
             }
         }
-        stage ("terraform fmt") {
-            steps {
-                sh 'terraform fmt'
+
+        stage('Build docker image'){
+            steps{
+                script{
+                    sh 'docker build -t rahultipledockers/springboot-app .'
+                }
             }
         }
-        stage ("terraform validate") {
-            steps {
-                sh 'terraform validate'
+        stage('Push image to Hub'){
+            steps{
+                script{
+                   withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
+                   sh 'docker login -u rahultipledocker -p ${dockerhubpwd}'
+                   }
+                   sh 'docker push rahultipledocker/springboot-app'
+                }
             }
         }
-        stage ("terrafrom plan") {
-            steps {
-                sh 'terraform plan '
+
+        stage("Create an EKS Cluster") {
+            steps {s
+                script {
+                    dir('terraform') {
+                        sh "terraform init"
+                        sh "terraform apply -auto-approve"
+                    }
+                }
             }
         }
-        stage ("terraform apply") {
+        stage("Deploy to EKS") {
             steps {
-                sh 'terraform apply --auto-approve'
+                script {
+                    dir('kubernetes') {
+                        sh "aws eks update-kubeconfig --name myapp-eks-cluster"
+                        sh "kubectl apply -f nginx-deployment.yaml"
+                        sh "kubectl apply -f nginx-service.yaml"
+                    }
+                }
             }
-        }
-    }
-    
-    post{
-        always{
-            echo "========== always ========="
-        }
-        success{
-            echo "========== pipeline executed successfully ========="
-        }
-        failure{
-            echo "========== pipeline execution failed ========="
         }
     }
 }
