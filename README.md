@@ -1,3 +1,32 @@
+
+# GitHub sources code URL
+
+https://github.com/RahulTiple31/first-terraform-project.git
+
+
+###### create eks cluster using terraform #####
+
+# terraform files
+
+eks_cluster.tf
+eks_node_group.tf
+iam_role.tf
+internetgw.tf
+provider.tf
+rout.tf
+sg.tf
+subnet.tf
+vpc.tf
+
+# terraform command
+
+terraform init
+terraform fmt
+terraform validate
+terrafrom plan
+terraform apply
+
+
 ###### following package install on jenkins server #####
 
 java -version   ---> 17.0.7
@@ -48,19 +77,18 @@ Jankins dashbord -> manage jenkins -> Manage credentials -> globle -> add creden
 
 Jankins dashbord -> manage jenkins -> Manage credentials -> globle -> add credentials -> Dockerhub
 
-##### create pipeline #####
+# create jenkins pipelinede
 
-# github pipeline syntax
-stage('Checkout')
-pipeline syntax -> sample step <checkout>
-                    SCM <git>
-                    Repository URL <>
-                    credentials <add_credentials>
-                    generate pipeline syntax
+create pipeline job
+create declarative pipeline
+clone github repository
+build maven
+copy .jar file into the Dockerfile
+create docker image from Dockerfile
+login dockerhub
+pull docker image to dockerhub repository
+springboot application deploy on EKS using aws cli and dockerhub image
 
-# dockerhub pipeline syntax
 
 
 
-# first-terraform-project
-My first terraform project. 
