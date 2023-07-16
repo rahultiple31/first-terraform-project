@@ -46,15 +46,15 @@ java -version   ---> 17.0.7
 maven -version  ---> 3.9.2
 
 ## install git
-sudo yum install git -y
+sudo apt-get install git -y
 
 ## install terraform
 
-sudo yum install -y yum-utils
+wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
 
-sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
 
-sudo yum -y install terraform
+sudo apt update && sudo apt install terraform
 
 ## install docker
 
